@@ -2,7 +2,7 @@ package com.example.javadevtesttask.service;
 
 import com.example.javadevtesttask.entity.Purchase;
 import com.example.javadevtesttask.entity.UserPurchase;
-import com.example.javadevtesttask.repository.PurchaseRepository;
+import com.example.javadevtesttask.repository.UserPurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ import java.util.List;
 public class PurchaseServiceImpl implements PurchaseService{
 
     @Autowired
-    PurchaseRepository purchaseRepository;
+    UserPurchaseRepository userpurchaseRepository;
 
     @Override
     public UserPurchase addPurchase(UserPurchase purchase) {
-       return purchaseRepository.save(purchase);
+       return userpurchaseRepository.save(purchase);
     }
 
     @Override
     public List<UserPurchase> getPurchases() {
-        return purchaseRepository.findAll();
+        return userpurchaseRepository.findAll();
     }
 }

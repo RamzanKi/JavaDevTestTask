@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popular purchases in 18</title>
+</head>
+<body>
+<h1>Popular purchases in 18</h1>
+<ul>
+    <li th:each="purchase: ${purchases}">
+        <span th:text="${purchase}"></span>
+    </li>
+</ul>
+</body>
+</html>

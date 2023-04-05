@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchases Last Week</title>
+</head>
+<body>
+<h1>Purchases Last Week</h1>
+<table>
+    <thead>
+    <tr>
+        <th>User Name</th>
+        <th>User Last Name</th>
+        <th>Purchase Name</th>
+        <th>Purchase Count</th>
+        <th>Purchase Amount</th>
+        <th>Purchase Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="purchase : ${purchases}">
+        <td th:text="${purchase.getName()}"></td>
+        <td th:text="${purchase.getLastName()}"></td>
+        <td th:text="${purchase.getPurchase().getName()}"></td>
+        <td th:text="${purchase.getCount()}"></td>
+        <td th:text="${purchase.getAmount()}"></td>
+        <td th:text="${purchase.getPurchaseDate()}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
