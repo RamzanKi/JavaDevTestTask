@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Purchases</title>
+</head>
+<body>
+<h1>User Purchases</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Lastname</th>
+        <th>Age</th>
+        <th>Purchase</th>
+        <th>Count</th>
+        <th>Amount</th>
+        <th>Purchase Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="userPurchase : ${userPurchases}">
+        <td th:text="${userPurchase.getId}"></td>
+        <td th:text="${userPurchase.getName}"></td>
+        <td th:text="${userPurchase.getLastName}"></td>
+        <td th:text="${userPurchase.getAge}"></td>
+        <td th:text="${userPurchase.purchase.getName}"></td>
+        <td th:text="${userPurchase.getCount}"></td>
+        <td th:text="${userPurchase.getAmount}"></td>
+        <td th:text="${userPurchase.getPurchaseDate}"></td>
+
+    </tr>
+    </tbody>
+</table>
+<a href="/user-purchases/create">Create</a>
+</body>
+</html>
