@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>User Purchase Form</h1>
-<form th:action="@{/user-purchases/create}" th:object="${userPurchase}" method="post">
+<form th:action="@{/create}" th:object="${userPurchase}" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" th:field="*{name}"/><br/><br/>
     php
@@ -23,14 +23,14 @@
     <label for="amount">Amount:</label>
     <input type="number" id="amount" th:field="*{amount}"/><br/><br/>
 
-    <label for="purchaseDate">Purchase Date:</label>
-    <input type="date" id="purchaseDate" th:field="*{purchaseDate}"/><br/><br/>
+<!--    <label for="purchaseDate">Purchase Date:</label>-->
+<!--    <input type="date" id="purchaseDate" th:field="*{purchaseDate}"/><br/><br/>-->
 
     <label for="purchase">Purchase:</label>
-    <select id="purchase" name="purchase.id">
+    <select id="purchase" name="purchase.name">
         <option value="">-- Select Purchase --</option>
         <th:block th:each="purchase : ${purchases}">
-            <option th:value="${purchase.id}" th:text="${purchase.name}"></option>
+            <option th:value="${purchase.id}" th:text="${purchase.getName}"></option>
         </th:block>
     </select><br/><br/>
 

@@ -39,7 +39,7 @@ public class PurchaseController {
     @PostMapping("/create")
     public String create(@ModelAttribute("userPurchase") UserPurchase userPurchase) {
         userPurchaseRepository.save(userPurchase);
-        return "redirect:/user-purchases";
+        return "redirect:/";
     }
 
     @GetMapping("/update/{id}")
@@ -55,13 +55,13 @@ public class PurchaseController {
     public String update(@PathVariable Long id, @ModelAttribute("userPurchase") UserPurchase userPurchase) {
         userPurchase.setId(id);
         userPurchaseRepository.save(userPurchase);
-        return "redirect:/user-purchases";
+        return "redirect:/";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         userPurchaseRepository.deleteById(id);
-        return "redirect:/user-purchases";
+        return "redirect:/";
     }
 
 
