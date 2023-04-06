@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User Purchase</title>
+</head>
+<body>
+<h1>Update User Purchase</h1>
+<form th:action="@{/update/{id}(id=${userPurchase.getId})}" th:object="${userPurchase}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}">
+    <br>
+    <label>Lastname:</label>
+    <input type="text" th:field="*{lastName}">
+    <br>
+    <label>Age:</label>
+    <input type="number" th:field="*{age}">
+    <br>
+
+    <label>Purchase:</label>
+    <input type="text" th:field="*{purchase.name}">
+
+<!--    <label>Purchase:</label>-->
+<!--    <select th:field="*{purchase}">-->
+<!--        <option th:each="purchase : ${purchases}" th:value="${purchase.id}" th:text="${purchase.name}"></option>-->
+<!--    </select>-->
+    <br>
+    <label>Count:</label>
+    <input type="number" th:field="*{count}">
+    <br>
+    <label>Amount:</label>
+    <input type="number" step="0.01" th:field="*{amount}">
+    <br>
+    <label>Purchase Date:</label>
+    <input type="date" th:field="*{purchaseDate}">
+    <br>
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>

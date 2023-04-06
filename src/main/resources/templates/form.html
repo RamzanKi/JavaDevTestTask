@@ -20,19 +20,25 @@
     <label for="count">Count:</label>
     <input type="number" id="count" th:field="*{count}"/><br/><br/>
 
-    <label for="amount">Amount:</label>
-    <input type="number" id="amount" th:field="*{amount}"/><br/><br/>
+    <label>Amount:</label>
+    <input type="number" step="0.01" th:field="*{amount}"><br/><br/>
 
-<!--    <label for="purchaseDate">Purchase Date:</label>-->
-<!--    <input type="date" id="purchaseDate" th:field="*{purchaseDate}"/><br/><br/>-->
+    <label for="purchaseDate">Purchase Date:</label>
+    <input type="date" id="purchaseDate" th:field="*{purchaseDate}"/><br/><br/>
 
-    <label for="purchase">Purchase:</label>
-    <select id="purchase" name="purchase.name">
-        <option value="">-- Select Purchase --</option>
-        <th:block th:each="purchase : ${purchases}">
-            <option th:value="${purchase.id}" th:text="${purchase.getName}"></option>
-        </th:block>
-    </select><br/><br/>
+    <label>Purchase:</label>
+    <input type="text" th:field="*{purchase.name}">
+
+
+    <!--    <label for="purchase">Purchase:</label>-->
+<!--    <select id="purchase" name="purchase.name">-->
+<!--        <option value="">&#45;&#45; Select Purchase &#45;&#45;</option>-->
+<!--        <th:block th:each="purchase : ${purchases}">-->
+<!--            <option th:value="${purchase.id}" th:text="${purchase.getName}"></option>-->
+<!--        </th:block>-->
+<!--    </select>-->
+
+    <br/><br/>
 
     <input type="submit" value="Submit"/>
 </form>

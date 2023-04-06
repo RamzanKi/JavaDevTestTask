@@ -1,5 +1,7 @@
 package com.example.javadevtesttask.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,6 +37,7 @@ public class UserPurchase {
     @Column(name = "user_age", nullable = false)
     private Integer age;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;

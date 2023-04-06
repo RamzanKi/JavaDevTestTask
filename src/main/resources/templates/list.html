@@ -31,6 +31,17 @@
         <td th:text="${userPurchase.getAmount}"></td>
         <td th:text="${userPurchase.getPurchaseDate}"></td>
 
+        <td>
+            <form th:action="@{/update/{id}(id=${userPurchase.getId})}" method="get">
+                <button type="submit">Update</button>
+            </form>
+        </td>
+
+        <td>
+        <form th:action="@{/delete/{id}(id=${userPurchase.getId})}" method="delete">
+            <input type="submit" value="Delete">
+        </form>
+        </td>
     </tr>
     </tbody>
 </table>
