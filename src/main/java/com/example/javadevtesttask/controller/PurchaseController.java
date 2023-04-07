@@ -2,8 +2,8 @@ package com.example.javadevtesttask.controller;
 
 import com.example.javadevtesttask.entity.Purchase;
 import com.example.javadevtesttask.entity.UserPurchase;
-import com.example.javadevtesttask.repository.PurchaseRepository;
-import com.example.javadevtesttask.repository.UserPurchaseRepository;
+import com.example.javadevtesttask.service.PurchaseService;
+import com.example.javadevtesttask.service.UserPurchaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,20 +34,17 @@ import java.util.List;
 public class PurchaseController {
 
     @Autowired
-    private UserPurchaseRepository userPurchaseRepository;
+    private UserPurchaseService userPurchaseService;
 
     @Autowired
-    private PurchaseRepository purchaseRepository;
-
-
-
+    private PurchaseService purchaseService;
 
 
 
     @GetMapping("/last-week")
     @ApiOperation(value = "Get all purchases for last week")
     public String getPurchasesLastWeek(Model model) {
-        List<UserPurchase> purchases = userPurchaseRepository.findByPurchaseDateAfter(LocalDate.now().minusDays(7));
+        List<UserPurchase> purchases = userPurchaseService.findByPurchaseDateAfter(LocalDate.now().minusDays(7));
 
         model.addAttribute("purchases", purchases);
         return "purchasesLastWeek";
@@ -56,7 +53,7 @@ public class PurchaseController {
     @GetMapping("/most-popular")
     @ApiOperation(value = "Get most popular purchase in month")
     public String getMostPopularInMonth(Model model) {
-        String mostPurchasedProductName = purchaseRepository.findMostPurchasedProductName();
+        String mostPurchasedProductName = purchaseService.findMostPurchasedProductName();
 
         model.addAttribute("purchases", mostPurchasedProductName);
         return "mostPopular";
@@ -66,7 +63,7 @@ public class PurchaseController {
     @GetMapping("/most-active-customer")
     @ApiOperation(value = "Get most active user")
     public String getMostActiveCustomer(Model model) {
-        String mostActiveCustomer = userPurchaseRepository.findMostActiveCustomer();
+        String mostActiveCustomer = userPurchaseService.findMostActiveCustomer();
         String s = mostActiveCustomer.replaceAll(",", " ");
         System.out.println(s);
         model.addAttribute("customer", s);
@@ -76,7 +73,7 @@ public class PurchaseController {
     @GetMapping("/popular18")
     @ApiOperation(value = "Get most popular purchase for users 18 years old")
     public String getPopularIn18(Model model) {
-        String popularIn18 = purchaseRepository.findPopularIn18();
+        String popularIn18 = purchaseService.findPopularIn18();
 
         model.addAttribute("purchases", popularIn18);
         return "popularIn18";
@@ -107,21 +104,16 @@ public class PurchaseController {
         UserPurchase userPurchase = (UserPurchase) unmarshaller.unmarshal(new StringReader(userPurchaseXml));
 
         // сохраняем данные в базу данных
-        userPurchaseRepository.save(userPurchase);
+        userPurchaseService.save(userPurchase);
 
         return ResponseEntity.ok().body("Purchase created successfully");
 
     }
 
-
-
-
-
-
     @GetMapping
     @ApiOperation(value = "Get all purchases")
     public String list(Model model) {
-        List<UserPurchase> userPurchases = userPurchaseRepository.findAll();
+        List<UserPurchase> userPurchases = userPurchaseService.findAll();
         model.addAttribute("userPurchases", userPurchases);
         return "list";
     }
@@ -129,7 +121,7 @@ public class PurchaseController {
     @GetMapping("/create")
     @ApiOperation(value = "create purchase")
     public String create(Model model) {
-        List<Purchase> purchases = purchaseRepository.findAll();
+        List<Purchase> purchases = purchaseService.findAll();
         model.addAttribute("userPurchase", new UserPurchase());
         model.addAttribute("purchases", purchases);
         return "form";
@@ -138,15 +130,15 @@ public class PurchaseController {
     @PostMapping("/create")
     @ApiOperation(value = "create purchase")
     public String create(@ModelAttribute("userPurchase") UserPurchase userPurchase) {
-        userPurchaseRepository.save(userPurchase);
+        userPurchaseService.save(userPurchase);
         return "redirect:/";
     }
 
     @GetMapping("/update/{id}")
     @ApiOperation(value = "update purchase")
     public String update(@PathVariable Long id, Model model) {
-        UserPurchase userPurchase = userPurchaseRepository.getOne(id);
-        List<Purchase> purchases = purchaseRepository.findAll();
+        UserPurchase userPurchase = userPurchaseService.getById(id);
+        List<Purchase> purchases = purchaseService.findAll();
         model.addAttribute("userPurchase", userPurchase);
         model.addAttribute("purchases", purchases);
         return "update";
@@ -156,14 +148,14 @@ public class PurchaseController {
     @ApiOperation(value = "update purchase")
     public String update(@PathVariable Long id, @ModelAttribute("userPurchase") UserPurchase userPurchase) {
         userPurchase.setId(id);
-        userPurchaseRepository.save(userPurchase);
+        userPurchaseService.save(userPurchase);
         return "redirect:/";
     }
 
     @GetMapping("/delete/{id}")
     @ApiOperation(value = "delete purchase")
     public String delete(@PathVariable Long id) {
-        userPurchaseRepository.deleteById(id);
+        userPurchaseService.deleteById(id);
         return "redirect:/";
     }
 
