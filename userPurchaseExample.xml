@@ -1,0 +1,10 @@
+<userPurchase>
+    <name>Иван</name>
+    <lastName>Иванов</lastName>
+    <age>30</age>
+    <purchase>
+        <name>Телефон</name>
+    </purchase>
+    <count>1</count>
+    <amount>50000.00</amount>
+</userPurchase>

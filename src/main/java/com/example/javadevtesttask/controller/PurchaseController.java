@@ -4,6 +4,8 @@ import com.example.javadevtesttask.entity.Purchase;
 import com.example.javadevtesttask.entity.UserPurchase;
 import com.example.javadevtesttask.repository.PurchaseRepository;
 import com.example.javadevtesttask.repository.UserPurchaseRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+@Api(value = "API for application")
 public class PurchaseController {
 
     @Autowired
@@ -42,6 +45,7 @@ public class PurchaseController {
 
 
     @GetMapping("/last-week")
+    @ApiOperation(value = "Get all purchases for last week")
     public String getPurchasesLastWeek(Model model) {
         List<UserPurchase> purchases = userPurchaseRepository.findByPurchaseDateAfter(LocalDate.now().minusDays(7));
 
@@ -50,6 +54,7 @@ public class PurchaseController {
     }
 
     @GetMapping("/most-popular")
+    @ApiOperation(value = "Get most popular purchase in month")
     public String getMostPopularInMonth(Model model) {
         String mostPurchasedProductName = purchaseRepository.findMostPurchasedProductName();
 
@@ -59,6 +64,7 @@ public class PurchaseController {
 
 
     @GetMapping("/most-active-customer")
+    @ApiOperation(value = "Get most active user")
     public String getMostActiveCustomer(Model model) {
         String mostActiveCustomer = userPurchaseRepository.findMostActiveCustomer();
         String s = mostActiveCustomer.replaceAll(",", " ");
@@ -68,6 +74,7 @@ public class PurchaseController {
     }
 
     @GetMapping("/popular18")
+    @ApiOperation(value = "Get most popular purchase for users 18 years old")
     public String getPopularIn18(Model model) {
         String popularIn18 = purchaseRepository.findPopularIn18();
 
@@ -76,6 +83,7 @@ public class PurchaseController {
     }
 
     @PostMapping(value = "/purchase", consumes = MediaType.APPLICATION_XML_VALUE)
+    @ApiOperation(value = "create purchase")
     public ResponseEntity<String> createPurchase(@RequestBody String userPurchaseXml) throws JAXBException, IOException {
         // проводим валидацию XML-файла по XSD-схеме
         File xsdFile = new File("userPurchase.xsd");
@@ -111,6 +119,7 @@ public class PurchaseController {
 
 
     @GetMapping
+    @ApiOperation(value = "Get all purchases")
     public String list(Model model) {
         List<UserPurchase> userPurchases = userPurchaseRepository.findAll();
         model.addAttribute("userPurchases", userPurchases);
@@ -118,6 +127,7 @@ public class PurchaseController {
     }
 
     @GetMapping("/create")
+    @ApiOperation(value = "create purchase")
     public String create(Model model) {
         List<Purchase> purchases = purchaseRepository.findAll();
         model.addAttribute("userPurchase", new UserPurchase());
@@ -126,12 +136,14 @@ public class PurchaseController {
     }
 
     @PostMapping("/create")
+    @ApiOperation(value = "create purchase")
     public String create(@ModelAttribute("userPurchase") UserPurchase userPurchase) {
         userPurchaseRepository.save(userPurchase);
         return "redirect:/";
     }
 
     @GetMapping("/update/{id}")
+    @ApiOperation(value = "update purchase")
     public String update(@PathVariable Long id, Model model) {
         UserPurchase userPurchase = userPurchaseRepository.getOne(id);
         List<Purchase> purchases = purchaseRepository.findAll();
@@ -141,6 +153,7 @@ public class PurchaseController {
     }
 
     @PostMapping("/update/{id}")
+    @ApiOperation(value = "update purchase")
     public String update(@PathVariable Long id, @ModelAttribute("userPurchase") UserPurchase userPurchase) {
         userPurchase.setId(id);
         userPurchaseRepository.save(userPurchase);
@@ -148,6 +161,7 @@ public class PurchaseController {
     }
 
     @GetMapping("/delete/{id}")
+    @ApiOperation(value = "delete purchase")
     public String delete(@PathVariable Long id) {
         userPurchaseRepository.deleteById(id);
         return "redirect:/";
@@ -156,7 +170,7 @@ public class PurchaseController {
 
     @GetMapping("/login")
     public String login() {
-        return "/login";
+        return "login";
     }
 
     @GetMapping("/access-denied")

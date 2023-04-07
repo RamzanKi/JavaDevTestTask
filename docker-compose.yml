@@ -1,12 +1,24 @@
 version: '3'
-
 services:
-  springboot-container:
-    image: spring-boot-task-docker-compose:1
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    volumes:
-      - /data/springboot-container
+  app:
+    build: .
     ports:
       - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+#      SPRING_SECURITY_USER_NAME: user
+#      SPRING_SECURITY_USER_PASSWORD: password
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres

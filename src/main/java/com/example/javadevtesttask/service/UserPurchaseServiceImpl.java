@@ -9,17 +9,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PurchaseServiceImpl implements PurchaseService{
+public class UserPurchaseServiceImpl {
 
     @Autowired
     UserPurchaseRepository userpurchaseRepository;
 
-    @Override
     public UserPurchase addPurchase(UserPurchase purchase) {
        return userpurchaseRepository.save(purchase);
     }
 
-    @Override
     public List<UserPurchase> getPurchases() {
         return userpurchaseRepository.findAll();
     }
