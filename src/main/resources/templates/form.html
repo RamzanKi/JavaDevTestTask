@@ -8,26 +8,25 @@
 <h1>User Purchase Form</h1>
 <form th:action="@{/create}" th:object="${userPurchase}" method="post">
     <label for="name">Name:</label>
-    <input type="text" id="name" th:field="*{name}"/><br/><br/>
-    php
-    Copy code
+    <input type="text" id="name" th:field="*{name}"required/><br/><br/>
+
     <label for="lastname">Lastname:</label>
-    <input type="text" id="lastname" th:field="*{lastName}"/><br/><br/>
+    <input type="text" id="lastname" th:field="*{lastName}"required/><br/><br/>
 
     <label for="age">Age:</label>
-    <input type="number" id="age" th:field="*{age}"/><br/><br/>
+    <input type="number" id="age" th:field="*{age}" required/><br/><br/>
 
     <label for="count">Count:</label>
-    <input type="number" id="count" th:field="*{count}"/><br/><br/>
+    <input type="number" id="count" th:field="*{count}" required/><br/><br/>
 
     <label>Amount:</label>
-    <input type="number" step="0.01" th:field="*{amount}"><br/><br/>
+    <input type="number" step="0.01" th:field="*{amount}" required><br/><br/>
 
     <label for="purchaseDate">Purchase Date:</label>
-    <input type="date" id="purchaseDate" th:field="*{purchaseDate}"/><br/><br/>
+    <input type="date" id="purchaseDate" th:field="*{purchaseDate}" required/><br/><br/>
 
     <label>Purchase:</label>
-    <input type="text" th:field="*{purchase.name}">
+    <input type="text" th:field="*{purchase.name}" required>
 
 
     <!--    <label for="purchase">Purchase:</label>-->

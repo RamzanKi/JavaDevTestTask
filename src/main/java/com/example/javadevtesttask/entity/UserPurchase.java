@@ -22,8 +22,6 @@ public class UserPurchase {
     public UserPurchase(){
 
     }
-
-//    @XmlTransient
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +36,7 @@ public class UserPurchase {
     private Integer age;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 

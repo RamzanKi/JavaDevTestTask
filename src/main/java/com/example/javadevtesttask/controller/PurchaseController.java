@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/")
@@ -81,7 +82,20 @@ public class PurchaseController {
 
     @PostMapping(value = "/purchase", consumes = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation(value = "create purchase")
-    public ResponseEntity<String> createPurchase(@RequestBody String userPurchaseXml) throws JAXBException, IOException {
+    public ResponseEntity<String> createPurchase(@RequestBody String userPurchaseXml) throws JAXBException {
+
+        UserPurchase userPurchase = validateXML(userPurchaseXml);
+
+        setPurchase(userPurchase);
+
+        // сохраняем данные в базу данных
+        userPurchaseService.save(userPurchase);
+
+        return ResponseEntity.ok().body("Purchase created successfully");
+
+    }
+
+    public UserPurchase validateXML(String userPurchaseXml) throws JAXBException {
         // проводим валидацию XML-файла по XSD-схеме
         File xsdFile = new File("userPurchase.xsd");
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -94,7 +108,7 @@ public class PurchaseController {
         Validator validator = schema.newValidator();
         try {
             validator.validate(new StreamSource(new StringReader(userPurchaseXml)));
-        } catch (SAXException e) {
+        } catch (SAXException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -103,11 +117,15 @@ public class PurchaseController {
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         UserPurchase userPurchase = (UserPurchase) unmarshaller.unmarshal(new StringReader(userPurchaseXml));
 
-        // сохраняем данные в базу данных
-        userPurchaseService.save(userPurchase);
-
-        return ResponseEntity.ok().body("Purchase created successfully");
-
+        return userPurchase;
+    }
+    public void setPurchase(UserPurchase userPurchase) {
+        List<Purchase> purchases = purchaseService.findAll();
+        for (Purchase purchase : purchases) {
+            if (Objects.equals(purchase.getName().toLowerCase(), userPurchase.getPurchase().getName().toLowerCase())) {
+                userPurchase.setPurchase(purchase);
+            }
+        }
     }
 
     @GetMapping
@@ -130,6 +148,9 @@ public class PurchaseController {
     @PostMapping("/create")
     @ApiOperation(value = "create purchase")
     public String create(@ModelAttribute("userPurchase") UserPurchase userPurchase) {
+
+        setPurchase(userPurchase);
+
         userPurchaseService.save(userPurchase);
         return "redirect:/";
     }
@@ -148,6 +169,9 @@ public class PurchaseController {
     @ApiOperation(value = "update purchase")
     public String update(@PathVariable Long id, @ModelAttribute("userPurchase") UserPurchase userPurchase) {
         userPurchase.setId(id);
+
+        setPurchase(userPurchase);
+
         userPurchaseService.save(userPurchase);
         return "redirect:/";
     }
