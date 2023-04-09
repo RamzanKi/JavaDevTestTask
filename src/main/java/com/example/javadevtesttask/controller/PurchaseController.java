@@ -86,9 +86,8 @@ public class PurchaseController {
 
         UserPurchase userPurchase = validateXML(userPurchaseXml);
 
-        setPurchase(userPurchase);
+        setPurchaseForUser(userPurchase);
 
-        // сохраняем данные в базу данных
         userPurchaseService.save(userPurchase);
 
         return ResponseEntity.ok().body("Purchase created successfully");
@@ -119,7 +118,7 @@ public class PurchaseController {
 
         return userPurchase;
     }
-    public void setPurchase(UserPurchase userPurchase) {
+    public void setPurchaseForUser(UserPurchase userPurchase) {
         List<Purchase> purchases = purchaseService.findAll();
         for (Purchase purchase : purchases) {
             if (Objects.equals(purchase.getName().toLowerCase(), userPurchase.getPurchase().getName().toLowerCase())) {
@@ -149,7 +148,7 @@ public class PurchaseController {
     @ApiOperation(value = "create purchase")
     public String create(@ModelAttribute("userPurchase") UserPurchase userPurchase) {
 
-        setPurchase(userPurchase);
+        setPurchaseForUser(userPurchase);
 
         userPurchaseService.save(userPurchase);
         return "redirect:/";
@@ -170,7 +169,7 @@ public class PurchaseController {
     public String update(@PathVariable Long id, @ModelAttribute("userPurchase") UserPurchase userPurchase) {
         userPurchase.setId(id);
 
-        setPurchase(userPurchase);
+        setPurchaseForUser(userPurchase);
 
         userPurchaseService.save(userPurchase);
         return "redirect:/";
