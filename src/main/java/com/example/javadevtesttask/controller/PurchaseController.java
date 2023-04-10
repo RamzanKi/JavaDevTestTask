@@ -119,11 +119,15 @@ public class PurchaseController {
         return userPurchase;
     }
     public void setPurchaseForUser(UserPurchase userPurchase) {
-        List<Purchase> purchases = purchaseService.findAll();
-        for (Purchase purchase : purchases) {
-            if (Objects.equals(purchase.getName().toLowerCase(), userPurchase.getPurchase().getName().toLowerCase())) {
-                userPurchase.setPurchase(purchase);
-            }
+        String pName = userPurchase.getPurchase().getName();
+        Purchase purchase = purchaseService.findPurchaseByName(pName);
+        if (purchase != null) {
+            userPurchase.setPurchase(purchase);
+        } else {
+            Purchase p = new Purchase();
+            p.setName(pName);
+            Purchase newPurchase = purchaseService.save(p);
+            userPurchase.setPurchase(newPurchase);
         }
     }
 

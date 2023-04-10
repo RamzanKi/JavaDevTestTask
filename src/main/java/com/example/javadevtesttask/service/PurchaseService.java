@@ -24,4 +24,12 @@ public class PurchaseService {
     public List<Purchase> findAll() {
         return purchaseRepository.findAll();
     }
+
+    public Purchase findPurchaseByName(String name) {
+        return purchaseRepository.findPurchaseByNameIgnoreCase(name);
+    }
+
+    public Purchase save(Purchase purchase) {
+        return purchaseRepository.save(purchase);
+    }
 }

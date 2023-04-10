@@ -25,4 +25,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "ORDER BY SUM(up.count) DESC " +
             "LIMIT 1;", nativeQuery = true)
     String findPopularIn18();
+
+    Purchase findPurchaseByNameIgnoreCase(String name);
 }
